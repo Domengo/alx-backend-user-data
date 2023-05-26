@@ -57,7 +57,7 @@ class RedactingFormatter(logging.Formatter):
         return redacted
 
 
-def get_logger():
+def get_logger() -> logging.Logger:
     """get logger
     """
     logger = logging.getLogger("user_data")
