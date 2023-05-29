@@ -78,14 +78,14 @@ def get_logger() -> logging.Logger:
 def get_db():
     """get_db
     """
-    user = os.environ.get('PERSONAL_DATA_DB_USERNAME')
-    password = os.environ.get('PERSONAL_DATA_DB_PASSWORD')
-    host = os.environ.get('PERSONAL_DATA_DB_HOST')
-    database = os.environ.get('PERSONAL_DATA_DB_NAME')
+    USER = os.environ.get('PERSONAL_DATA_DB_USERNAME')
+    PASSWORD = os.environ.get('PERSONAL_DATA_DB_PASSWORD')
+    HOST = os.environ.get('PERSONAL_DATA_DB_HOST')
+    DB = os.environ.get('PERSONAL_DATA_DB_NAME')
 
     return mysql.connector.connect(
-        host=host,
-        database=database,
-        user=user,
-        password=password
+        host=HOST,
+        database=DB,
+        user=USER,
+        password=PASSWORD
     )
