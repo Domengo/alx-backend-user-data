@@ -2,16 +2,27 @@
 """encrypt pswd
 """
 import bcrypt
+from bcrypt import hashpw
 
 
-def hash_password(password):
-    """encrypt pswd
+def hash_password(password: str) -> bytes:
     """
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-# bytes = password.encode('utf-8')
+    Returns a hashed password
+    Args:
+        password (str): password to be hashed
+    """
+    b = password.encode()
+    hashed = hashpw(b, bcrypt.gensalt())
+    return hashed
 
-# # generating the salt
-# salt = bcrypt.gensalt()
 
-# # Hashing the password
-# hash = bcrypt.hashpw(bytes, salt)
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """
+    Check whether a password is valid
+    Args:
+        hashed_password (bytes): hashed password
+        password (str): password in string
+    Return:
+        bool
+    """
+    return bcrypt.checkpw(password.encode(), hashed_password)
