@@ -3,7 +3,6 @@
 """
 import hashlib
 from models.base import Base
-from typing import Dict
 
 
 class User(Base):
@@ -20,7 +19,7 @@ class User(Base):
         self.last_name = kwargs.get('last_name')
 
     @property
-    def password(self) -> str | Dict:
+    def password(self) -> str:
         """ Getter of the password
         """
         return self._password
@@ -51,9 +50,9 @@ class User(Base):
                 and self.last_name is None:
             return ""
         if self.first_name is None and self.last_name is None:
-            return f"{self.email}"
+            return "{}".format(self.email)
         if self.last_name is None:
-            return f"{self.first_name}"
+            return "{}".format(self.first_name)
         if self.first_name is None:
             return "{}".format(self.last_name)
         else:
