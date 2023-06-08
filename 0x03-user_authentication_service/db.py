@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, tuple_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -46,20 +46,18 @@ class DB:
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """_summary_
-
-        Raises:
-            NoResultFound: _description_
-            e: _description_
-
-        Returns:
-            _type_: _description_
+        """Finds a user based on a set of filters.
         """
-        user = self._session.query.filter_by(User)
-        for k, v in kwargs.items():
-            if k not in User.__table__.columns:
-                raise InvalidRequestError
-            for row in user:
-                if getattr(row, k) == v:
-                    return row
-        raise NoResultFound
+        fields, values = [], []
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                fields.append(getattr(User, key))
+                values.append(value)
+            else:
+                raise InvalidRequestError()
+        result = self._session.query(User).filter(
+            tuple_(*fields).in_([tuple(values)])
+        ).first()
+        if result is None:
+            raise NoResultFound()
+        return result
