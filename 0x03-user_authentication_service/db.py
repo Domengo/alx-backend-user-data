@@ -56,5 +56,3 @@ class DB:
             return user
         except InvalidRequestError as e:
             raise e
-
-
