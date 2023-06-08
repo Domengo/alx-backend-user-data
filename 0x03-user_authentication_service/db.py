@@ -5,7 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-import NoResultFound, InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 
 from user import Base, User
@@ -18,7 +19,7 @@ class DB:
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -44,15 +45,21 @@ class DB:
             user = None
         return user
 
-    @staticmethod
-    def find_user_by(**kwargs):
-        try:
-            # Perform the query
-            user = User.query.filter_by(**kwargs).first()
+    def find_user_by(self, **kwargs) -> User:
+        """_summary_
 
-            if user is None:
-                raise NoResultFound("No user found with the given arguments")
+        Raises:
+            NoResultFound: _description_
+            e: _description_
 
-            return user
-        except InvalidRequestError as e:
-            raise e
+        Returns:
+            _type_: _description_
+        """
+        user = self._session.query.filter_by(User)
+        for k, v in kwargs.items():
+            if k not in User.__table__.columns:
+                raise InvalidRequestError
+            for row in user:
+                if getattr(row, k) == v:
+                    return row
+        raise NoResultFound
