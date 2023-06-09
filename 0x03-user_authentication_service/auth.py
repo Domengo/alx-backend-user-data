@@ -67,7 +67,6 @@ class Auth:
         """ Generate a new UUID and return it as a string"""
         return str(uuid.uuid4())
 
-
     def create_session(self, email: str) -> str:
         """method. It takes an email string argument
         returns the session ID as a string.
