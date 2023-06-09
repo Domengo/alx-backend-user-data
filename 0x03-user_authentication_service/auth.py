@@ -18,7 +18,8 @@ def _hash_password(password: str) -> bytes:
 
 
 def _generate_uuid(self) -> str:
-    """ Generate a new UUID and return it as a string"""
+    """ Generate a new UUID and return it as a string
+    """
     return str(uuid.uuid4())
 
 
@@ -75,7 +76,7 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             if user:
-                session_id = self._generate_uuid()
+                session_id = _generate_uuid()
                 user.session_id = session_id
                 self._db._session.commit()
                 return session_id
