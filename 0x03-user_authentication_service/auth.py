@@ -85,3 +85,5 @@ class Auth:
 
         except NoResultFound:
             return None
+
+    
