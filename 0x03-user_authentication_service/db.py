@@ -63,6 +63,17 @@ class DB:
         return result
 
     def update_user(self, user_id: int, **kwargs) -> None:
+        """_summary_
+
+        Args:
+            user_id (int): _description_
+
+        Raises:
+            ValueError: _description_
+            ValueError: _description_
+        Returns:
+            None: _description_
+        """
         user = self.find_user_by(id=user_id)
         if not user:
             raise ValueError
