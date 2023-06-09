@@ -63,7 +63,7 @@ class Auth:
         return bcrypt.checkpw(password.encode('utf-8'),
                               user.hashed_password)
 
-    @classmethod
+    @staticmethod
     def _generate_uuid(self) -> str:
         """_summary_
         Returns:
