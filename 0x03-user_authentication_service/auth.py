@@ -17,6 +17,11 @@ def _hash_password(password: str) -> bytes:
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 
+def _generate_uuid(self) -> str:
+    """ Generate a new UUID and return it as a string"""
+    return str(uuid.uuid4())
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -62,10 +67,6 @@ class Auth:
 
         return bcrypt.checkpw(password.encode('utf-8'),
                               user.hashed_password)
-
-    def _generate_uuid(self) -> str:
-        """ Generate a new UUID and return it as a string"""
-        return str(uuid.uuid4())
 
     def create_session(self, email: str) -> str:
         """method. It takes an email string argument
