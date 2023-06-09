@@ -63,10 +63,26 @@ class Auth:
         return bcrypt.checkpw(password.encode('utf-8'),
                               user.hashed_password)
 
-    def _generate_uuid() -> str:
+    def _generate_uuid(self) -> str:
         """_summary_
-
         Returns:
             str
         """
         return str(uuid4())
+
+    def create_session(self, email: str) -> str:
+        """method. It takes an email string argument
+        returns the session ID as a string.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            if user:
+                session_id = self._generate_uuid()
+                user.session_id = session_id
+                self._db._session.commit()
+                return session_id
+            else:
+                raise ValueError
+
+        except NoResultFound:
+            return None
