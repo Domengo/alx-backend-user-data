@@ -7,7 +7,7 @@ import bcrypt
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
-from uuid import uuid4
+import uuid
 
 
 def _hash_password(password: str) -> bytes:
@@ -63,13 +63,10 @@ class Auth:
         return bcrypt.checkpw(password.encode('utf-8'),
                               user.hashed_password)
 
-    @staticmethod
-    def _generate_uuid(self) -> str:
-        """_summary_
-        Returns:
-            str
-        """
-        return str(uuid4())
+    def _generate_uuid(self):
+        # Generate a new UUID and return it as a string
+        return str(uuid.uuid4())
+
 
     def create_session(self, email: str) -> str:
         """method. It takes an email string argument
