@@ -110,25 +110,17 @@ class Auth:
             return None
 
     def get_reset_password_token(self, email: str) -> str:
-        """_summary_
-
-        Args:
-            email (str): _description_
-
-        Raises:
-            ValueError: _description_
-
-        Returns:
-            str: _description_
+        """method that takes an email string argument
+        and returns the user’s reset token
         """
         try:
             user = self._db.find_user_by(email=email)
             if user:
                 reset_token = _generate_uuid()
-                self._db.update_user(user.id, reset_token=reset_token)
+                user.reset_token = reset_token
                 self._db._session.commit()
-            raise ValueError
+                return reset_token
+            else:
+                raise ValueError
         except NoResultFound:
-            return None
-
-        return reset_token
+            raise ValueError
