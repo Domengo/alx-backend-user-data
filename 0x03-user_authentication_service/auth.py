@@ -127,7 +127,8 @@ class Auth:
                 reset_token = _generate_uuid()
                 self._db.update_user(user.id, reset_token=reset_token)
                 self._db._session.commit()
-        except NoResultFound:
             raise ValueError
+        except NoResultFound:
+            return None
         
         return reset_token
