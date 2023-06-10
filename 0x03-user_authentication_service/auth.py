@@ -130,5 +130,5 @@ class Auth:
             raise ValueError
         except NoResultFound:
             return None
-        
+
         return reset_token
